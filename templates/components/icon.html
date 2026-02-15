@@ -1,0 +1,4 @@
+{% load static %}
+<span class="inline-flex items-center justify-center {% if class %}{{ class }}{% endif %}">
+    {% include "components/icons/"|add:icon_name|add:".svg" %}
+</span>

@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact - Mon Portfolio{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="py-20" style="background-color: var(--bg-secondary);">
+    <div class="max-w-4xl mx-auto text-center px-4">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6" style="background-color: var(--bg-tertiary); color: var(--text-primary);">
+            {% include 'components/icons/send.svg' %}
+            <span>Contact</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold mb-4" style="color: var(--text-primary);">Contactez-moi</h1>
+        <p class="text-xl" style="color: var(--text-secondary);">Une question ou un projet ? N'hésitez pas à me contacter</p>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-20" style="background-color: var(--bg-primary);">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Contact Info -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Email -->
+                <div class="rounded-2xl border p-6 transition-all hover:-translate-y-1" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background-color: var(--bg-tertiary);">
+                        {% include 'components/icons/mail.svg' %}
+                    </div>
+                    <h3 class="font-semibold mb-2" style="color: var(--text-primary);">Email</h3>
+                    <p class="text-sm mb-3" style="color: var(--text-secondary);">Envoyez-moi un email</p>
+                    <a href="mailto:{% if site_settings and site_settings.contact_email %}{{ site_settings.contact_email }}{% else %}contact@portfolio.com{% endif %}" class="text-sm font-semibold break-all" style="color: var(--accent-color);">{% if site_settings and site_settings.contact_email %}{{ site_settings.contact_email }}{% else %}contact@portfolio.com{% endif %}</a>
+                </div>
+                
+                <!-- Location -->
+                <div class="rounded-2xl border p-6 transition-all hover:-translate-y-1" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background-color: var(--bg-tertiary);">
+                        {% include 'components/icons/map-pin.svg' %}
+                    </div>
+                    <h3 class="font-semibold mb-2" style="color: var(--text-primary);">Localisation</h3>
+                    <p class="text-sm" style="color: var(--text-secondary);">{% if site_settings and site_settings.contact_location %}{{ site_settings.contact_location }}{% else %}Paris, France{% endif %}</p>
+                    <p class="text-xs mt-1" style="color: var(--text-muted);">Fuseau horaire: UTC+1</p>
+                </div>
+                
+                <!-- Availability -->
+                <div class="rounded-2xl border p-6 transition-all hover:-translate-y-1" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background-color: var(--bg-tertiary);">
+                        {% include 'components/icons/clock.svg' %}
+                    </div>
+                    <h3 class="font-semibold mb-2" style="color: var(--text-primary);">Disponibilité</h3>
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                        <p class="text-sm" style="color: var(--text-secondary);">Disponible pour des missions</p>
+                    </div>
+                </div>
+                
+                <!-- Social Links -->
+                <div class="rounded-2xl border p-6" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+                    <h3 class="font-semibold mb-4" style="color: var(--text-primary);">Suivez-moi</h3>
+                    <div class="flex gap-3">
+                        
+                        {% if social_links %}
+                        {% for social in social_links %}
+                        <a href="{{ social.url }}" target="_blank" 
+                           class="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:-translate-y-1"
+                           style="background-color: var(--bg-tertiary); color: var(--text-secondary);">
+                            {{ social.icon|safe }}
+                        </a>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="lg:col-span-2">
+                <div class="rounded-3xl border p-8" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold mb-2" style="color: var(--text-primary);">Envoyez un message</h2>
+                        <p style="color: var(--text-secondary);">Remplissez le formulaire ci-dessous et je vous répondrai sous 24h.</p>
+                    </div>
+                    {% if messages %}
+                    <div class="mb-8 space-y-3">
+                        {% for message in messages %}
+                        {% if message.extra_tags == 'success_contact' or  message.extra_tags == 'error_contact' %}
+                        <div class="p-4 rounded-xl {% if message.extra_tags == 'success_contact' %}bg-green-500/10 text-green-500 border border-green-500/20{% else %}bg-red-500/10 text-red-500 border border-red-500/20{% endif %}">
+                            {{ message }}
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <form method="post" class="space-y-6">
+                        {% csrf_token %}
+                        
+                        <!-- Name & Email Row -->
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label for="{{ form.name.id_for_label }}" class="text-sm font-medium" style="color: var(--text-secondary);">Nom complet *</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" style="color: var(--text-muted);">
+                                        {% include 'components/icons/user.svg' %}
+                                    </div>
+                                    <input type="text" name="{{ form.name.html_name }}" id="{{ form.name.id_for_label }}" 
+                                           class="w-full pl-10 pr-4 py-3 rounded-xl border transition-colors focus:outline-none focus:ring-2"
+                                           style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);"
+                                           placeholder="Votre nom" required>
+                                </div>
+                                {% if form.name.errors %}
+                                <p class="text-sm text-red-500">{{ form.name.errors }}</p>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label for="{{ form.email.id_for_label }}" class="text-sm font-medium" style="color: var(--text-secondary);">Email *</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" style="color: var(--text-muted);">
+                                        {% include 'components/icons/mail.svg' %}
+                                    </div>
+                                    <input type="email" name="{{ form.email.html_name }}" id="{{ form.email.id_for_label }}" 
+                                           class="w-full pl-10 pr-4 py-3 rounded-xl border transition-colors focus:outline-none focus:ring-2"
+                                           style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);"
+                                           placeholder="votre@email.com" required>
+                                </div>
+                                {% if form.email.errors %}
+                                <p class="text-sm text-red-500">{{ form.email.errors }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <!-- Subject -->
+                        <div class="space-y-2">
+                            <label for="{{ form.subject.id_for_label }}" class="text-sm font-medium" style="color: var(--text-secondary);">Sujet *</label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" style="color: var(--text-muted);">
+                                    {% include 'components/icons/folder.svg' %}
+                                </div>
+                                <input type="text" name="{{ form.subject.html_name }}" id="{{ form.subject.id_for_label }}" 
+                                       class="w-full pl-10 pr-4 py-3 rounded-xl border transition-colors focus:outline-none focus:ring-2"
+                                       style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);"
+                                       placeholder="Sujet de votre message" required>
+                            </div>
+                            {% if form.subject.errors %}
+                            <p class="text-sm text-red-500">{{ form.subject.errors }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Message -->
+                        <div class="space-y-2">
+                            <label for="{{ form.message.id_for_label }}" class="text-sm font-medium" style="color: var(--text-secondary);">Message *</label>
+                            <div class="relative">
+                                <textarea name="{{ form.message.html_name }}" id="{{ form.message.id_for_label }}" rows="6"
+                                          class="w-full px-4 py-3 rounded-xl border transition-colors focus:outline-none focus:ring-2 resize-none"
+                                          style="background-color: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary);"
+                                          placeholder="Décrivez votre projet ou votre question..." required></textarea>
+                            </div>
+                            {% if form.message.errors %}
+                            <p class="text-sm text-red-500">{{ form.message.errors }}</p>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button type="submit" 
+                                class="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:-translate-y-0.5"
+                                style="background-color: var(--accent-color); color: white;">
+                            {% include 'components/icons/send.svg' %}
+                            <span>Envoyer le message</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-20" style="background-color: var(--bg-secondary);">
+    <div class="max-w-4xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold mb-4" style="color: var(--text-primary);">Questions fréquentes</h2>
+            <p style="color: var(--text-secondary);">Voici les réponses aux questions les plus posées</p>
+        </div>
+        
+        <div class="space-y-4">
+            <details class="group rounded-2xl border" style="background-color: var(--bg-primary); border-color: var(--border-color);">
+                <summary class="flex items-center justify-between cursor-pointer p-6">
+                    <span class="font-semibold" style="color: var(--text-primary);">Quels sont vos tarifs ?</span>
+                    <span class="transition-transform group-open:rotate-180" style="color: var(--accent-color);">
+                        {% include 'components/icons/chevron-down.svg' %}
+                    </span>
+                </summary>
+                <div class="px-6 pb-6" style="color: var(--text-secondary);">
+                    <p>Mes tarifs varient en fonction de la complexité du projet. Je propose des tarifs journaliers pour les missions courtes et des forfaits pour les projets plus importants. N'hésitez pas à me contacter pour obtenir un devis personnalisé.</p>
+                </div>
+            </details>
+            
+            <details class="group rounded-2xl border" style="background-color: var(--bg-primary); border-color: var(--border-color);">
+                <summary class="flex items-center justify-between cursor-pointer p-6">
+                    <span class="font-semibold" style="color: var(--text-primary);">Combien de temps faut-il pour développer un site web ?</span>
+                    <span class="transition-transform group-open:rotate-180" style="color: var(--accent-color);">
+                        {% include 'components/icons/chevron-down.svg' %}
+                    </span>
+                </summary>
+                <div class="px-6 pb-6" style="color: var(--text-secondary);">
+                    <p>La durée de développement dépend de la complexité du projet. Un site vitrine simple peut prendre 1 à 2 semaines, tandis qu'une application web complète peut nécessiter plusieurs mois. Je vous fournirai un calendrier détaillé lors de notre première échange.</p>
+                </div>
+            </details>
+            
+            <details class="group rounded-2xl border" style="background-color: var(--bg-primary); border-color: var(--border-color);">
+                <summary class="flex items-center justify-between cursor-pointer p-6">
+                    <span class="font-semibold" style="color: var(--text-primary);">Travaillez-vous à distance ?</span>
+                    <span class="transition-transform group-open:rotate-180" style="color: var(--accent-color);">
+                        {% include 'components/icons/chevron-down.svg' %}
+                    </span>
+                </summary>
+                <div class="px-6 pb-6" style="color: var(--text-secondary);">
+                    <p>Oui ! Je travaille principalement à distance et peux collaborer avec des clients du monde entier. J'utilise des outils de communication et de gestion de projet efficaces pour assurer une collaboration fluide.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+{% endblock %}

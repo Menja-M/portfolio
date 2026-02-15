@@ -1,0 +1,753 @@
+/* 
+ * Portfolio Styles - Menja Randriamanantena
+ * Modern, clean and responsive design
+ */
+
+/* Icons in accent-colored buttons should be white */
+a[style*="background-color: var(--accent-color)"],
+a[style*="background-color:var(--accent-color)"],
+button[style*="background-color: var(--accent-color)"],
+button[style*="background-color:var(--accent-color)"],
+.bg-blue-500,
+.bg-indigo-500,
+.bg-purple-500,
+.bg-violet-500,
+.bg-blue-600,
+.bg-indigo-600,
+.bg-purple-600,
+.bg-violet-600 {
+    color: white !important;
+}
+
+a[style*="background-color: var(--accent-color)"] svg,
+a[style*="background-color:var(--accent-color)"] svg,
+button[style*="background-color: var(--accent-color)"] svg,
+button[style*="background-color:var(--accent-color)"] svg,
+.bg-blue-500 svg,
+.bg-indigo-500 svg,
+.bg-purple-500 svg,
+.bg-violet-500 svg,
+.bg-blue-600 svg,
+.bg-indigo-600 svg,
+.bg-purple-600 svg,
+.bg-violet-600 svg {
+    color: white !important;
+    fill: white !important;
+}
+
+/* ===== CSS Variables ===== */
+:root {
+    --primary-color: #3498db;
+    --primary-dark: #2980b9;
+    --secondary-color: #2c3e50;
+    --accent-color: #e74c3c;
+    --background-color: #f8f9fa;
+    --surface-color: #ffffff;
+    --text-primary: #2c3e50;
+    --text-secondary: #6c757d;
+    --text-light: #95a5a6;
+    --border-color: #e9ecef;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --transition: all 0.3s ease;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Light mode - Default */
+body {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-tertiary: #f3f4f6;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4b5563;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+    --accent-color: #3b82f6;
+    --accent-primary: #3b82f6;
+    --accent-hover: #2563eb;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+
+/* Buttons */
+button[type="submit"], .btn-primary {
+    background-color: var(--accent-color) !important;
+    color: white !important;
+}
+
+/* Icons inside accent-colored elements should be white */
+button[type="submit"] svg,
+.btn-primary svg {
+    color: white !important;
+    fill: white !important;
+}
+
+button[type="submit"]:hover, .btn-primary:hover {
+    background-color: var(--accent-hover) !important;
+}
+
+/* Form inputs focus states */
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent-color) !important;
+}
+
+/* Markdown content styling */
+.markdown-content {
+    line-height: 1.8;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.markdown-content h1 { font-size: 2em; }
+.markdown-content h2 { font-size: 1.5em; }
+.markdown-content h3 { font-size: 1em; }
+.markdown-content h4 { font-size: 0.5em; }
+
+.markdown-content p {
+    margin-bottom: 1em;
+    color: var(--text-secondary);
+}
+
+.markdown-content a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.markdown-content a:hover {
+    color: var(--accent-hover);
+}
+
+.markdown-content ul,
+.markdown-content ol {
+    margin-bottom: 1em;
+    padding-left: 2em;
+    color: var(--text-secondary);
+}
+
+.markdown-content li {
+    margin-bottom: 0.5em;
+}
+
+.markdown-content blockquote {
+    border-left: 4px solid var(--accent-color);
+    padding-left: 1em;
+    margin: 1em 0;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.markdown-content code {
+    background-color: var(--bg-tertiary);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    color: var(--accent-color);
+}
+
+.markdown-content pre {
+    background-color: var(--bg-tertiary);
+    padding: 1em;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1em 0;
+}
+
+.markdown-content pre code {
+    background-color: transparent;
+    padding: 0;
+    color: var(--text-secondary);
+}
+
+.markdown-content hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 2em 0;
+}
+
+.markdown-content strong,
+.markdown-content b {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.markdown-content em,
+.markdown-content i {
+    font-style: italic;
+}
+
+
+/* In light mode, icons should be blue (except in accent buttons) */
+body:not(.dark-mode) svg:not(button svg):not(a[style*="background-color: var(--accent-color)"] svg):not([class*="bg-blue"] svg):not([class*="bg-indigo"] svg):not([class*="bg-purple"] svg):not([style*="--accent-color"] svg) {
+    color: #3b82f6;
+}
+
+/* In dark mode, icons should be purple (except in accent buttons) */
+body.dark-mode svg:not(button svg):not(a[style*="background-color: var(--accent-color)"] svg):not([class*="bg-blue"] svg):not([class*="bg-indigo"] svg):not([class*="bg-purple"] svg):not([style*="--accent-color"] svg) {
+    color: #818cf8;
+}
+
+/* Buttons with white bg in light mode - keep them white */
+.bg-white {
+    background-color: #ffffff !important;
+}
+
+/* Dark mode */
+body.dark-mode {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+    --text-muted: #9ca3af;
+    --border-color: #374151;
+    --accent-color: #6366f1;
+    --accent-primary: #6366f1;
+    --accent-hover: #818cf8;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* White buttons in dark mode need adjustment */
+body.dark-mode .bg-white {
+    background-color: #1e293b !important;
+    color: #f9fafb !important;
+    border: 1px solid #374151;
+}
+
+body.dark-mode .bg-white:hover {
+    background-color: #334155 !important;
+}
+
+/* Theme toggle button */
+#theme-toggle {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 50;
+    padding: 12px;
+    border-radius: 9999px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    background-color: #e5e7eb;
+    color: #1f2937;
+}
+
+#theme-toggle:hover {
+    transform: scale(1.1);
+    background-color: #d1d5db;
+}
+
+/* Dark mode toggle button */
+body.dark-mode #theme-toggle {
+    background-color: #334155;
+    color: #f9fafb;
+}
+
+body.dark-mode #theme-toggle:hover {
+    background-color: #475569;
+}
+
+#theme-toggle svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* ===== Container ===== */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ===== Typography ===== */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+
+p {
+    margin-bottom: 1rem;
+}
+
+/* ===== Buttons ===== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #1a252f;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+}
+
+.btn-lg {
+    padding: 16px 32px;
+    font-size: 1.125rem;
+}
+
+/* ===== Navbar ===== */
+.navbar {
+    background-color: var(--surface-color);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 1rem 0;
+}
+
+.navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-brand {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--secondary-color);
+}
+
+.brand-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.brand-tagline {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.navbar-nav {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.navbar-nav a {
+    color: var(--text-secondary);
+    font-weight: 500;
+    padding: 0.5rem 0;
+    position: relative;
+}
+
+.navbar-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.navbar-nav a:hover,
+.navbar-nav a.active {
+    color: var(--primary-color);
+}
+
+.navbar-nav a:hover::after,
+.navbar-nav a.active::after {
+    width: 100%;
+}
+
+.navbar-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.navbar-toggle span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--secondary-color);
+    border-radius: 2px;
+    transition: var(--transition);
+}
+
+/* ===== Hero Section ===== */
+.hero {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.hero-description {
+    font-size: 1.125rem;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    opacity: 0.85;
+}
+
+.hero .highlight {
+    color: #f39c12;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ===== Page Header ===== */
+.page-header {
+    padding: 4rem 0;
+    background-color: var(--secondary-color);
+    color: white;
+    text-align: center;
+}
+
+.page-header h1 {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.page-header p {
+    opacity: 0.8;
+    margin: 0;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    opacity: 0.8;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+}
+
+.back-link:hover {
+    opacity: 1;
+    color: white;
+}
+
+/* ===== Sections ===== */
+section {
+    padding: 5rem 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background-color: var(--primary-color);
+    margin: 1rem auto 0;
+    border-radius: 2px;
+}
+
+/* ===== Skills Section ===== */
+.skills-section {
+    background-color: var(--surface-color);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.skill-category {
+    background-color: var(--background-color);
+    padding: 2rem;
+    border-radius: var(--radius-lg);
+}
+
+.category-title {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    display: inline-block;
+}
+
+.skill-item {
+    margin-bottom: 1.5rem;
+}
+
+.skill-item:last-child {
+    margin-bottom: 0;
+}
+
+.skill-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.skill-name {
+    font-weight: 500;
+}
+
+.skill-percentage {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.skill-bar {
+    height: 8px;
+    background-color: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.skill-progress {
+    height: 100%;
+    background-color: var(--primary-color);
+    border-radius: 4px;
+    transition: width 1s ease;
+}
+
+/* ===== Projects Section ===== */
+.projects-section {
+    background-color: var(--background-color);
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.project-card {
+    background-color: var(--surface-color);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.project-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.project-card:hover .project-image img {
+    transform: scale(1.05);
+}
+
+.project-content {
+    padding: 1.5rem;
+}
+
+.project-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.project-description {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.project-technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tech-tag {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+    padding: 4px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.project-links {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* ===== About Section ===== */
+.about-preview {
+    background-color: var(--surface-color);
+    text-align: center;
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-text {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+/* ===== Contact CTA ===== */
+.contact-cta {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    text-align: center;
+}
+
+.contact-cta h2 {
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.contact-cta p {
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+
+/*  ============= Chat Section ============= */
+#chat-log{
+    max-height: 400px;
+}

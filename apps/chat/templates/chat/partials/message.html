@@ -1,0 +1,7 @@
+<div class="flex {% if message.is_from_admin %}justify-start{% else %}justify-end{% endif %} mb-3">
+    <div class="max-w-xs lg:max-w-md px-4 py-2 rounded-xl text-white" style="background-color: {% if message.is_from_admin %}#6366f1{% else %}#3b82f6{% endif %};">
+        <p class="text-sm font-medium mb-1">{{ message.sender.username }}</p>
+        <p>{{ message.content }}</p>
+        <p class="text-xs opacity-75 mt-1">{{ message.sent_at|time:"H:i" }}</p>
+    </div>
+</div>

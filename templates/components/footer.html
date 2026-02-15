@@ -1,0 +1,46 @@
+<footer style="background-color: var(--bg-secondary); color: var(--text-primary);" class="mt-auto">
+    <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+            <!-- Brand -->
+            <div class="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+                <a href="{% url 'home' %}" class="text-2xl font-bold">
+                    <span style="color: var(--text-primary);">{% if site_settings %}{{ site_settings.logo_text }}{% else %}MMR{% endif %}</span>
+                </a>
+                <p class="text-sm" style="color: var(--text-secondary);">
+                    {% if site_settings and site_settings.footer_copyright %}{{ site_settings.footer_copyright }}{% else %}© {% now "Y" %} MMR Portfolio. Tous droits réservés.{% endif %}
+                </p>
+            </div>
+            
+            <!-- Navigation Links -->
+            <div class="flex items-center gap-6">
+                <a href="{% url 'home' %}" class="text-sm transition-colors" style="color: var(--text-secondary);">Accueil</a>
+                <a href="{% url 'projects' %}" class="text-sm transition-colors" style="color: var(--text-secondary);">Projets</a>
+                <a href="{% url 'about' %}" class="text-sm transition-colors" style="color: var(--text-secondary);">À propos</a>
+                <a href="{% url 'contact' %}" class="text-sm transition-colors" style="color: var(--text-secondary);">Contact</a>
+            </div>
+            
+            <!-- Social Links -->
+            <div class="flex items-center gap-4">
+                {% if social_links %}
+                    {% for social in social_links %}
+                        <a href="{{ social.url }}" target="_blank" rel="noopener noreferrer" 
+                           class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:-translate-y-1" 
+                           style="background-color: var(--bg-tertiary); color: var(--text-secondary);" aria-label="{{ social.name }}">
+                            {{ social.icon|safe }}
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:-translate-y-1" style="background-color: var(--bg-tertiary); color: var(--text-secondary);" aria-label="GitHub">
+                        {% include 'components/icons/github.svg' %}
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:-translate-y-1" style="background-color: var(--bg-tertiary); color: var(--text-secondary);" aria-label="LinkedIn">
+                        {% include 'components/icons/linkedin.svg' %}
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 hover:-translate-y-1" style="background-color: var(--bg-tertiary); color: var(--text-secondary);" aria-label="Twitter">
+                        {% include 'components/icons/twitter.svg' %}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</footer>

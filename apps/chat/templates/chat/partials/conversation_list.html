@@ -1,0 +1,33 @@
+{% for conversation in conversations %}
+<a href="{% url 'chat:admin_conversation' conversation.id %}" 
+   class="block p-4 rounded-xl mb-3 transition-all duration-300 hover:scale-[1.01]"
+   style="background-color: var(--bg-secondary); border: 1px solid var(--border-color);">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center" 
+                 style="background-color: {% if conversation.unread_count > 0 %}var(--accent-primary){% else %}var(--bg-tertiary){% endif %};">
+                <span class="{% if conversation.unread_count > 0 %}text-white{% else %}text-gray-400{% endif %} font-bold">
+                    {{ conversation.user.username|slice:":1"|upper }}
+                </span>
+            </div>
+            <div>
+                <p class="font-medium" style="color: var(--text-primary);">
+                    {{ conversation.user.username }}
+                </p>
+                <p class="text-sm" style="color: var(--text-secondary);">
+                    Dernier message: {{ conversation.last_message_at|timesince }} 
+                </p>
+            </div>
+        </div>
+        {% if conversation.unread_count > 0 %}
+        <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+            {{ conversation.unread_count }}
+        </span>
+        {% endif %}
+    </div>
+</a>
+{% empty %}
+<div class="text-center py-8" style="color: var(--text-secondary);">
+    <p>Aucune conversation</p>
+</div>
+{% endfor %}

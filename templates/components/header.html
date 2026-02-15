@@ -1,0 +1,171 @@
+<header class="sticky top-0 z-50 backdrop-blur-md" id="main-header">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a href="{% url 'home' %}" class="flex items-center gap-2 text-xl font-bold header-text">
+        <span style="background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+          {% if site_settings %}
+            {{ site_settings.logo_text }}
+          {% else %}
+            MMR
+          {% endif %}
+        </span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-1">
+        {% with current_path=request.path %}
+          <a href="{% url 'home' %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 header-nav" data-path="/">Accueil</a>
+          <a href="{% url 'projects' %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 header-nav" data-path="/projects">Projets</a>
+          <a href="{% url 'about' %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 header-nav" data-path="/about">À propos</a>
+          <a href="{% url 'contact' %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 header-nav" data-path="/contact">Contact</a>
+          
+          {% if request.user.is_authenticated %}
+            {% if request.user.is_staff or request.user.is_superuser %}
+              <!-- Admin Chat Link -->
+              <a href="{% url 'chat:admin_inbox' %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 header-nav flex items-center gap-2" data-path="/chat/admin">
+                {% include 'components/icons/mail.svg' %}
+                <span>Messages</span>
+              </a>
+            {% else %}
+              <!-- User Chat Link -->
+              <a href="{% url 'chat:home' %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 header-nav flex items-center gap-2" data-path="/chat">
+                {% include 'components/icons/mail.svg' %}
+                <span>Chat</span>
+              </a>
+            {% endif %}
+            <!-- Logout Button -->
+            <a href="{% url 'logout' %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 header-nav flex items-center gap-2" style="color: #ef4444;">
+              {% include 'components/icons/log-in.svg' %}
+              <span>Déconnexion</span>
+            </a>
+          {% else %}
+            <!-- Login/Signup Buttons -->
+            <a href="{% url 'login' %}" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 header-nav flex items-center gap-2" data-path="/accounts/login">
+              {% include 'components/icons/log-in.svg' %}
+              <span>Connexion</span>
+            </a>
+            <a href="{% url 'signup' %}" class="px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200" style="background-color: var(--accent-primary); color: white;" data-path="/accounts/signup">
+              S'inscrire
+            </a>
+          {% endif %}
+        {% endwith %}
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button type="button" id="mobile-menu-button" class="md:hidden p-2 rounded-lg transition-colors header-text" aria-label="Toggle navigation">{% include 'components/icons/menu.svg' %}</button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-t header-border">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-2">
+      {% with current_path=request.path %}
+        <a href="{% url 'home' %}" class="px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 header-nav-mobile" data-path="/">Accueil</a>
+        <a href="{% url 'projects' %}" class="px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 header-nav-mobile" data-path="/projects">Projets</a>
+        <a href="{% url 'about' %}" class="px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 header-nav-mobile" data-path="/about">À propos</a>
+        <a href="{% url 'contact' %}" class="px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 header-nav-mobile" data-path="/contact">Contact</a>
+        
+        {% if request.user.is_authenticated %}
+          {% if request.user.is_staff or request.user.is_superuser %}
+            <!-- Admin Chat Link -->
+            <a href="{% url 'chat:admin_inbox' %}" class="px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 header-nav-mobile flex items-center gap-2" data-path="/chat/admin">
+              {% include 'components/icons/mail.svg' %}
+              <span>Messages</span>
+            </a>
+          {% else %}
+            <!-- User Chat Link -->
+            <a href="{% url 'chat:home' %}" class="px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 header-nav-mobile flex items-center gap-2" data-path="/chat">
+              {% include 'components/icons/mail.svg' %}
+              <span>Chat</span>
+            </a>
+          {% endif %}
+          <!-- Logout Button -->
+          <a href="{% url 'logout' %}" class="px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 header-nav-mobile flex items-center gap-2" style="color: #ef4444;">
+            {% include 'components/icons/log-in.svg' %}
+            <span>Déconnexion</span>
+          </a>
+        {% else %}
+          <!-- Login/Signup Buttons -->
+          <a href="{% url 'login' %}" class="px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 header-nav-mobile flex items-center gap-2" data-path="/accounts/login">
+            {% include 'components/icons/log-in.svg' %}
+            <span>Connexion</span>
+          </a>
+          <a href="{% url 'signup' %}" class="px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 text-center" style="background-color: var(--accent-primary); color: white;" data-path="/accounts/signup">
+            S'inscrire
+          </a>
+        {% endif %}
+      {% endwith %}
+    </div>
+  </div>
+</header>
+
+<style>
+  /* Header styles for dark mode (default) */
+  #main-header {
+    background-color: rgba(30, 41, 59, 0.9);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 50;
+  }
+  .header-text {
+    color: var(--text-primary);
+  }
+  .header-border {
+    border-color: var(--border-color);
+    background-color: var(--bg-secondary);
+  }
+  .header-nav,
+  .header-nav-mobile {
+    color: var(--text-secondary);
+  }
+  .header-nav:hover,
+  .header-nav-mobile:hover {
+    color: var(--accent-color);
+    background-color: var(--bg-tertiary);
+  }
+  .header-nav.active,
+  .header-nav-mobile.active {
+    color: var(--accent-color);
+    background-color: var(--bg-tertiary);
+  }
+  
+  /* Light mode styles */
+  body:not(.dark-mode) #main-header {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  body:not(.dark-mode) .header-border {
+    background-color: #f9fafb;
+  }
+</style>
+
+<script>
+  // Set active nav link based on current path
+  document.addEventListener('DOMContentLoaded', function () {
+    const path = window.location.pathname
+    document.querySelectorAll('.header-nav, .header-nav-mobile').forEach(function (el) {
+      const elPath = el.getAttribute('data-path')
+      if (path === elPath || (elPath !== '/' && path.startsWith(elPath))) {
+        el.classList.add('active')
+      }
+    })
+  })
+  
+  // Mobile menu toggle
+  const mobileMenuButton = document.getElementById('mobile-menu-button')
+  const mobileMenu = document.getElementById('mobile-menu')
+  
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden')
+      // Toggle between menu and close icons
+      const menuIcon = `{% include 'components/icons/menu.svg' %}`
+      const closeIcon = `{% include 'components/icons/x.svg' %}`
+      // Simple toggle based on hidden state
+      if (mobileMenu.classList.contains('hidden')) {
+        mobileMenuButton.innerHTML = menuIcon
+      } else {
+        mobileMenuButton.innerHTML = closeIcon
+      }
+    })
+  }
+</script>

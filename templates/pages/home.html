@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Accueil -{% if site_settings %}
+    {{ site_settings.site_name }}
+  {% else %}
+    Mon Portfolio
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden" style="background-color: var(--bg-primary);">
+    <!-- Background decoration -->
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute top-0 left-1/4 w-96 h-96 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob" style="background-color: var(--bg-tertiary);"></div>
+      <div class="absolute top-0 right-1/4 w-96 h-96 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000" style="background-color: var(--bg-tertiary);"></div>
+      <div class="absolute -bottom-32 left-1/3 w-96 h-96 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000" style="background-color: var(--bg-tertiary);"></div>
+    </div>
+
+    <div class="max-w-4xl mx-auto text-center px-4 relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6" style="background-color: var(--bg-tertiary); color: var(--text-primary);">
+        {% include 'components/icons/code.svg' %}
+        <span>
+          {% if site_settings %}
+            Développeur Web
+          {% else %}
+            Développeur Full Stack
+          {% endif %}
+        </span>
+      </div>
+
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 leading-tight" style="color: var(--text-primary);">
+        {% if site_settings %}
+          {{ site_settings.hero_title }}
+        {% else %}
+          Bonjour, je suis Menja
+        {% endif %}
+      </h1>
+      <div class="text-xl sm:text-2xl mb-10 max-w-2xl mx-auto leading-relaxed" style="color: var(--text-secondary);">
+        {% if about_bio_html %}
+          {{ about_bio_html|truncatewords_html:20 }}
+        {% elif about and about.bio %}
+          {{ about.bio|truncatewords:30 }}
+        {% elif site_settings %}
+          {{ site_settings.hero_subtitle }}
+        {% else %}
+          Je conçois et développe des expériences numériques modernes, performantes et accessibles.
+        {% endif %}
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="{% if site_settings %}
+            {{ site_settings.hero_cta_url }}
+          {% else %}
+            {% url 'projects' %}
+          {% endif %}"
+          class="inline-flex space-x-2 items-center justify-center px-8 py-4 rounded-xl transition-all duration-300 hover:-translate-y-0.5"
+          style="background-color: var(--accent-color); color: white;">
+          {% include 'components/icons/folder.svg' %}
+          <span>
+            {% if site_settings %}
+              {{ site_settings.hero_cta_text }}
+            {% else %}
+              Voir mes projets
+            {% endif %}
+          </span>
+        </a>
+        <a href="{% if site_settings %}
+            {{ site_settings.hero_secondary_cta_url }}
+          {% else %}
+            {% url 'contact' %}
+          {% endif %}"
+          class="inline-flex space-x-2 items-center justify-center px-8 py-4 rounded-xl border font-semibold rounded-xl transition-all duration-300 hover:-translate-y-0.5"
+          style="background-color: var(--bg-tertiary); color: var(--text-primary); border-color: var(--border-color);">
+          {% include 'components/icons/send.svg' %}
+          <span>
+            {% if site_settings %}
+              {{ site_settings.hero_secondary_cta_text }}
+            {% else %}
+              Me contacter
+            {% endif %}
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="py-16" style="background-color: var(--bg-secondary);">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="text-center">
+          <div class="text-4xl font-bold mb-2" style="color: var(--text-primary);">
+            {% if site_settings %}
+              {{ site_settings.stats_years }}
+            {% else %}
+              5+
+            {% endif %}
+          </div>
+          <div style="color: var(--text-secondary);">Années d'expérience</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold mb-2" style="color: var(--text-primary);">
+            {% if site_settings %}
+              {{ site_settings.stats_projects }}
+            {% else %}
+              50+
+            {% endif %}
+          </div>
+          <div style="color: var(--text-secondary);">Projets réalisés</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold mb-2" style="color: var(--text-primary);">
+            {% if site_settings %}
+              {{ site_settings.stats_clients }}
+            {% else %}
+              30+
+            {% endif %}
+          </div>
+          <div style="color: var(--text-secondary);">Clients satisfaits</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold mb-2" style="color: var(--text-primary);">
+            {% if site_settings %}
+              {{ site_settings.stats_passion }}
+            {% else %}
+              100%
+            {% endif %}
+          </div>
+          <div style="color: var(--text-secondary);">Passion</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  {% if skills %}
+    <section class="py-20" style="background-color: var(--bg-primary);">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl sm:text-4xl font-bold mb-4" style="color: var(--text-primary);">Compétences techniques</h2>
+          <p class="max-w-2xl mx-auto" style="color: var(--text-secondary);">Une expertise approfondie dans les technologies modernes du web</p>
+        </div>
+
+        {% regroup skills by get_category_display as category_list %}
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {% for category in category_list %}
+            <div class="group rounded-2xl border p-6 hover:-translate-y-1 transition-all duration-300" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+              <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:opacity-80 transition-colors duration-300" style="background-color: var(--bg-tertiary);">
+                {% if category.grouper == 'Frontend' %}
+                  {% include 'components/icons/code.svg' %}
+                {% elif category.grouper == 'Backend' %}
+                  {% include 'components/icons/server.svg' %}
+                {% elif category.grouper == 'Database' %}
+                  {% include 'components/icons/folder.svg' %}
+                {% else %}
+                  {% include 'components/icons/code.svg' %}
+                {% endif %}
+              </div>
+              <h3 class="text-lg font-semibold mb-4" style="color: var(--text-primary);">{{ category.grouper }}</h3>
+
+              <div class="space-y-4">
+                {% for skill in category.list %}
+                  <div>
+                    <div class="flex justify-between items-center mb-1">
+                      <span class="text-sm font-medium" style="color: var(--text-secondary);">{{ skill.name }}</span>
+                      <span class="text-sm" style="color: var(--text-muted);">{{ skill.proficiency }}%</span>
+                    </div>
+                    <div class="h-2 rounded-full overflow-hidden" style="background-color: var(--bg-tertiary);">
+                      <div class="h-full rounded-full transition-all duration-1000 ease-out" style="width: {{ skill.proficiency }}%; background-color: var(--accent-color);"></div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- Featured Projects -->
+  {% if projects %}
+    <section class="py-20" style="background-color: var(--bg-secondary);">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl sm:text-4xl font-bold mb-4" style="color: var(--text-primary);">Projets récents</h2>
+          <p class="max-w-2xl mx-auto" style="color: var(--text-secondary);">Découvrez mes réalisations les plus récentes</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {% for project in projects %}
+            <article class="group rounded-2xl border overflow-hidden hover:-translate-y-2 transition-all duration-300" style="background-color: var(--bg-primary); border-color: var(--border-color);">
+              <!-- Image -->
+              {% if project.image %}
+                <div class="aspect-video overflow-hidden relative" style="background-color: var(--bg-secondary);">
+                  <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+              {% else %}
+                <div class="aspect-video flex items-center justify-center relative overflow-hidden" style="background-color: var(--bg-tertiary);">
+                  {% include 'components/icons/folder.svg' %}
+                </div>
+              {% endif %}
+
+              <!-- Content -->
+              <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2 group-hover:opacity-80 transition-colors" style="color: var(--text-primary);">{{ project.title }}</h3>
+
+                <p class="text-sm mb-4 line-clamp-2" style="color: var(--text-secondary);">{{ project.description }}</p>
+
+                {% if project.technologies %}
+                  <div class="flex flex-wrap gap-2 mb-4">
+                    {% for tech in project.get_technologies_list|slice:':3' %}
+                      <span class="px-3 py-1 text-xs rounded-full font-medium" style="background-color: var(--bg-tertiary); color: var(--text-secondary);">{{ tech }}</span>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+                <div class="flex items-center justify-between pt-4 border-t" style="border-color: var(--border-color);">
+                  <a href="{% url 'project_detail' project.id %}" class="text-sm font-semibold transition-colors" style="color: var(--accent-color);">Détails</a>
+                  <div class="flex gap-3">
+                    {% if project.github_link %}
+                      <a href="{{ project.github_link }}" target="_blank" class="transition-colors p-1" style="color: var(--text-muted);">{% include 'components/icons/github.svg' %}</a>
+                    {% endif %}
+                    {% if project.link %}
+                      <a href="{{ project.link }}" target="_blank" class="transition-colors p-1" style="color: var(--text-muted);">{% include 'components/icons/external-link.svg' %}</a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+
+        <div class="text-center mt-12">
+          <a href="{% url 'projects' %}" class="inline-flex space-x-2 items-center px-8 py-4 rounded-xl border font-semibold transition-all duration-300" style="background-color: var(--bg-tertiary); color: var(--text-primary); border-color: var(--border-color);">
+            <span>Voir tous les projets</span>
+            {% include 'components/icons/arrow-right.svg' %}
+          </a>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- CTA Section -->
+  <section class="py-24" style="background-color: var(--bg-secondary);">
+    <div class="max-w-4xl mx-auto text-center px-4">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-6" style="color: var(--text-primary);">
+        {% if site_settings %}
+          {{ site_settings.cta_title }}
+        {% else %}
+          Prêt à démarrer votre projet ?
+        {% endif %}
+      </h2>
+      <p class="text-lg mb-10 max-w-2xl mx-auto" style="color: var(--text-secondary);">
+        {% if site_settings %}
+          {{ site_settings.cta_subtitle }}
+        {% else %}
+          Discutons de votre projet et transformons vos idées en réalité numérique.
+        {% endif %}
+      </p>
+      <a href="{% if site_settings %}
+          {{ site_settings.cta_button_url }}
+        {% else %}
+          {% url 'contact' %}
+        {% endif %}"
+        class="inline-flex space-x-2 items-center px-8 py-4 rounded-xl transition-all duration-300 hover:-translate-y-0.5"
+        style="background-color: var(--accent-color); color: white;">
+        {% include 'components/icons/send.svg' %}
+        <span>
+          {% if site_settings %}
+            {{ site_settings.cta_button_text }}
+          {% else %}
+            Me contacter
+          {% endif %}
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <div id="about-container" class="bg-black overflow-y-auto bg-opacity-80 hidden justify-center items-center fixed top-0 left-0 w-full h-full" style="z-index: 100;">
+    <div class="relative m-2 my-50" id="about-section">
+      <button id="btn-close" class="absolute -right-2 -top-2 h-8 w-8 rounded-full flex items-center justify-center" style="z-index: 50;background-color: var(--bg-tertiary);">{% include 'components/icons/x.svg' %}</button>
+      {% include 'pages/partials/partials_about.html' %}
+    </div>
+  </div>
+{% endblock %}

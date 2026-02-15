@@ -1,0 +1,56 @@
+<div class="rounded-2xl border p-6 sm:p-8 text-center transition-colors" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+  <div class="mb-6 relative inline-block">
+    {% if about.photo %}
+      <img src="{{ about.photo.url }}" alt="{{ about.title }}" class="w-32 h-32 sm:w-40 sm:h-40 rounded-full mx-auto object-cover border-4" style="border-color: var(--border-color);" />
+    {% else %}
+      <div class="w-32 h-32 sm:w-40 text-4xl sm:h-40 rounded-full mx-auto flex items-center justify-center" style="background-color: var(--bg-tertiary);">
+        {% include 'components/icons/user.svg' %}
+      </div>
+    {% endif %}
+    <div class="absolute bottom-1 right-1 w-5 h-5 sm:w-6 sm:h-6 bg-green-500 rounded-full border-4" style="border-color: var(--bg-secondary);"></div>
+  </div>
+
+  <h2 class="text-xl sm:text-2xl font-bold mb-2" style="color: var(--text-primary);">
+    {% if about %}
+      {{ about.title }}
+    {% else %}
+      MMR
+    {% endif %}
+  </h2>
+  <p class="mb-6" style="color: var(--text-secondary);">Développeur Full Stack</p>
+
+  <!-- Social Links -->
+  {% if social_links %}
+    <div class="flex justify-center gap-3 mb-6">
+      {% for social in social_links %}
+        <a href="{{ social.url }}" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300" style="background-color: var(--bg-tertiary); color: var(--text-secondary);">{{ social.icon|safe }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if about.resume %}
+    <a href="{{ about.resume.url }}" target="_blank" class="inline-flex space-x-2 items-center px-6 py-3 rounded-xl transition-all duration-300" style="background-color: var(--accent-color); color: white;" download>{% include 'components/icons/download.svg' %}<span>Télécharger CV</span></a>
+  {% endif %}
+  <div class="mt-6 pt-6 border-t space-y-4" style="border-color: var(--border-color);">
+    <div class="flex items-center justify-center gap-3" style="color: var(--text-secondary);">
+      {% include 'components/icons/mail.svg' %}
+      <span class="break-all text-sm">
+        {% if site_settings and site_settings.contact_email %}
+          {{ site_settings.contact_email }}
+        {% else %}
+          contact@portfolio.com
+        {% endif %}
+      </span>
+    </div>
+    <div class="flex items-center justify-center" style="color: var(--text-secondary);">
+      <span class="text-xl">{% include 'components/icons/map-pin.svg' %}</span>
+      <span>
+        {% if site_settings and site_settings.contact_location %}
+          {{ site_settings.contact_location }}
+        {% else %}
+          Paris, France
+        {% endif %}
+      </span>
+    </div>
+  </div>
+</div>

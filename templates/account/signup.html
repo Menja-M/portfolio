@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Créer un compte - {% if site_settings %}{{ site_settings.site_name }}{% endif %}{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="py-16 sm:py-20" style="background-color: var(--bg-secondary);">
+    <div class="max-w-4xl mx-auto text-center px-4">
+        <h1 class="text-3xl sm:text-4xl font-bold mb-4" style="color: var(--text-primary);">Créer un compte</h1>
+    </div>
+</section>
+
+<!-- Signup Form -->
+<section class="py-16" style="background-color: var(--bg-primary);">
+    <div class="max-w-md mx-auto px-4">
+        <div class="rounded-2xl border p-6 sm:p-8" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+            <form method="post" class="space-y-6">
+                {% csrf_token %}
+                
+                <!-- Non-field errors -->
+                {% if form.non_field_errors %}
+                <div class="p-4 rounded-xl" style="background-color: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);">
+                    {% for error in form.non_field_errors %}
+                    <p class="text-sm" style="color: #ef4444;">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Username -->
+                <div>
+                    <label for="id_username" class="block text-sm font-medium mb-2" style="color: var(--text-primary);">
+                        Nom d'utilisateur
+                    </label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                    <p class="mt-1 text-sm" style="color: #ef4444;">
+                        {% for error in form.username.errors %}{{ error }}{% endfor %}
+                    </p>
+                    {% endif %}
+                </div>
+                
+                <!-- Email -->
+                <div>
+                    <label for="id_email" class="block text-sm font-medium mb-2" style="color: var(--text-primary);">
+                        Adresse email
+                    </label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <p class="mt-1 text-sm" style="color: #ef4444;">
+                        {% for error in form.email.errors %}{{ error }}{% endfor %}
+                    </p>
+                    {% endif %}
+                </div>
+                
+                <!-- Password1 -->
+                <div>
+                    <label for="id_password1" class="block text-sm font-medium mb-2" style="color: var(--text-primary);">
+                        Mot de passe
+                    </label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                    <p class="mt-1 text-sm" style="color: #ef4444;">
+                        {% for error in form.password1.errors %}{{ error }}{% endfor %}
+                    </p>
+                    {% endif %}
+                </div>
+                
+                <!-- Password2 -->
+                <div>
+                    <label for="id_password2" class="block text-sm font-medium mb-2" style="color: var(--text-primary);">
+                        Confirmer le mot de passe
+                    </label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                    <p class="mt-1 text-sm" style="color: #ef4444;">
+                        {% for error in form.password2.errors %}{{ error }}{% endfor %}
+                    </p>
+                    {% endif %}
+                </div>
+                
+                <!-- Submit -->
+                <button type="submit" 
+                        class="w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all"
+                        style="background-color: var(--accent-primary); color: white;">
+                    {% include 'components/icons/user.svg' %}
+                    <span>Créer mon compte</span>
+                </button>
+            </form>
+            
+            <!-- Link to login -->
+            <div class="mt-6 text-center">
+                <a href="{% url 'login' %}" class="text-sm transition-colors" style="color: var(--accent-primary);">
+                    Déjà un compte ? Se connecter
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

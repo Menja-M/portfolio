@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block title %}Projets - Mon Portfolio{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="py-20" style="background-color: var(--bg-secondary);">
+    <div class="max-w-4xl mx-auto text-center px-4">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6" style="background-color: var(--bg-tertiary); color: var(--text-primary);">
+            {% include 'components/icons/folder.svg' %}
+            <span>Portfolio</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-bold mb-4" style="color: var(--text-primary);">Mes projets</h1>
+        <p class="text-xl" style="color: var(--text-secondary);">Découvrez mes réalisations et contributions</p>
+    </div>
+</section>
+
+<!-- Projects Grid -->
+<section class="py-16" style="background-color: var(--bg-primary);">
+    <div class="max-w-7xl mx-auto px-4">
+        {% if projects %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for project in projects %}
+            <article class="group rounded-2xl border overflow-hidden hover:-translate-y-2 transition-all duration-300" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
+                <!-- Image -->
+                {% if project.image %}
+                <div class="aspect-video overflow-hidden relative" style="background-color: var(--bg-tertiary);">
+                    <img src="{{ project.image.url }}" 
+                         alt="{{ project.title }}" 
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                        <a href="{{ project.link }}" target="_blank" 
+                           class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                           style="background-color: var(--accent-color); color: white;">
+                            {% include 'components/icons/external-link.svg' %}
+                        </a>
+                        {% if project.github_link %}
+                        <a href="{{ project.github_link }}" target="_blank" 
+                           class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                           style="background-color: var(--bg-primary); color: var(--text-primary);">
+                            {% include 'components/icons/github.svg' %}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="aspect-video flex items-center justify-center relative overflow-hidden" style="background-color: var(--bg-tertiary);">
+                    {% include 'components/icons/folder.svg' %}
+                    <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+                        {% if project.github_link %}
+                        <a href="{{ project.github_link }}" target="_blank" 
+                           class="w-12 h-12 rounded-full flex items-center justify-center transition-all hover:scale-110"
+                           style="background-color: var(--bg-primary); color: var(--text-primary);">
+                            {% include 'components/icons/github.svg' %}
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Content -->
+                <div class="p-6">
+                    <div class="flex items-start justify-between gap-4 mb-3">
+                        <div>
+                            <h3 class="text-xl font-semibold group-hover:opacity-80 transition-colors" style="color: var(--text-primary);">{{ project.title }}</h3>
+                        </div>
+                        <div class="flex gap-2 flex-shrink-0">
+                            {% if project.featured %}
+                            <div class="w-6 h-6 rounded-full flex items-center justify-center" title="Featured">
+                                {% include 'components/icons/star.svg' %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <p class="text-sm mb-4 line-clamp-3" style="color: var(--text-secondary);">{{ project.description }}</p>
+                    
+                    {% if project.technologies %}
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        {% for tech in project.get_technologies_list|slice:":5" %}
+                        <span class="px-3 py-1 text-xs rounded-full font-medium" style="background-color: var(--bg-tertiary); color: var(--text-secondary);">{{ tech }}</span>
+                        {% endfor %}
+                        {% if project.get_technologies_list|length > 5 %}
+                        <span class="px-3 py-1 text-xs rounded-full font-medium" style="background-color: var(--bg-tertiary); color: var(--text-muted);">+{{ project.get_technologies_list|length|add:"-5" }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <a href="{% url 'project_detail' project.id %}" 
+                       class="inline-flex items-center gap-2 text-sm font-semibold transition-colors mt-4"
+                       style="color: var(--accent-color);">
+                        <span>Voir détails</span>
+                        {% include 'components/icons/arrow-right.svg' %}
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav class="mt-16 flex justify-center items-center gap-2">
+            {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" 
+               class="w-10 h-10 rounded-lg flex items-center justify-center transition-colors"
+               style="background-color: var(--bg-secondary); color: var(--text-secondary); border-color: var(--border-color);">
+                {% include 'components/icons/arrow-left.svg' %}
+            </a>
+            {% else %}
+            <span class="w-10 h-10 rounded-lg flex items-center justify-center opacity-50" style="background-color: var(--bg-secondary); color: var(--text-muted);">
+                {% include 'components/icons/arrow-left.svg' %}
+            </span>
+            {% endif %}
+            
+            {% for num in paginator.page_range %}
+            {% if page_obj.number == num %}
+            <span class="w-10 h-10 rounded-lg flex items-center justify-center" style="background-color: var(--accent-color); color: white;">{{ num }}</span>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}" 
+               class="w-10 h-10 rounded-lg flex items-center justify-center transition-colors"
+               style="background-color: var(--bg-secondary); color: var(--text-primary);">{{ num }}</a>
+            {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" 
+               class="w-10 h-10 rounded-lg flex items-center justify-center transition-colors"
+               style="background-color: var(--bg-secondary); color: var(--text-secondary); border-color: var(--border-color);">
+                {% include 'components/icons/arrow-right.svg' %}
+            </a>
+            {% else %}
+            <span class="w-10 h-10 rounded-lg flex items-center justify-center opacity-50" style="background-color: var(--bg-secondary); color: var(--text-muted);">
+                {% include 'components/icons/arrow-right.svg' %}
+            </span>
+            {% endif %}
+        </nav>
+        {% endif %}
+        
+        {% else %}
+        <div class="text-center py-20">
+            <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style="background-color: var(--bg-tertiary);">
+                {% include 'components/icons/folder.svg' %}
+            </div>
+            <h3 class="text-xl font-semibold mb-2" style="color: var(--text-primary);">Aucun projet disponible</h3>
+            <p style="color: var(--text-secondary);">Revenez bientôt pour découvrir mes réalisations.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-24" style="background-color: var(--bg-secondary);">
+    <div class="max-w-4xl mx-auto text-center px-4">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6" style="color: var(--text-primary);">Vous avez un projet en tête ?</h2>
+        <p class="text-lg mb-10 max-w-2xl mx-auto" style="color: var(--text-secondary);">N'hésitez pas à me contacter pour discuter de votre projet.</p>
+        <a href="{% url 'contact' %}" 
+           class="inline-flex space-x-2 items-center px-8 py-4 rounded-xl transition-all duration-300 hover:-translate-y-0.5"
+           style="background-color: var(--accent-color); color: white;">
+            {% include 'components/icons/send.svg' %}<span>Me contacter</span>
+        </a>
+    </div>
+</section>
+{% endblock %}

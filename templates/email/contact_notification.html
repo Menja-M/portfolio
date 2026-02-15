@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouveau message de contact</title>
+    <style>
+        /* Reset styles */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+        }
+        
+        /* Container */
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        
+        /* Header */
+        .email-header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .email-header h1 {
+            color: #ffffff;
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        
+        .email-header p {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 10px 0 0 0;
+            font-size: 16px;
+        }
+        
+        /* Content */
+        .email-content {
+            padding: 40px 30px;
+        }
+        
+        .notification-badge {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+        
+        .info-section {
+            margin-bottom: 25px;
+        }
+        
+        .info-section h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6b7280;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 8px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 14px;
+        }
+        
+        .info-value {
+            color: #4b5563;
+            font-size: 14px;
+            word-break: break-all;
+        }
+        
+        /* Message Box */
+        .message-box {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .message-box h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6b7280;
+            margin: 0 0 15px 0;
+            border-bottom: none;
+        }
+        
+        .message-content {
+            color: #1a1a1a;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            font-size: 15px;
+        }
+        
+        /* Action Button */
+        .action-section {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 20px;
+        }
+        
+        .reply-button {
+            display: inline-block;
+            background-color: #3b82f6;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        /* Footer */
+        .email-footer {
+            padding: 30px;
+            text-align: center;
+            background-color: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .email-footer p {
+            margin: 5px 0;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        
+        .copyright {
+            font-size: 12px;
+            color: #9ca3af;
+        }
+        
+        /* Responsive */
+        @media (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+            }
+            
+            .email-header,
+            .email-content,
+            .email-footer {
+                padding: 25px 20px !important;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="email-header">
+            <h1>📬 Nouveau Message</h1>
+            <p>Quelqu'un vous a contacté via votre portfolio</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="email-content">
+            <span class="notification-badge">✉️ Message de contact</span>
+            
+            <!-- Sender Info -->
+            <div class="info-section">
+                <h3>Informations du contact</h3>
+                <div class="info-grid">
+                    <span class="info-label">Nom :</span>
+                    <span class="info-value">{{ name }}</span>
+                    
+                    <span class="info-label">Email :</span>
+                    <span class="info-value">{{ email }}</span>
+                    
+                    <span class="info-label">Sujet :</span>
+                    <span class="info-value">{{ subject }}</span>
+                    
+                    <span class="info-label">Date :</span>
+                    <span class="info-value">{{ date }}</span>
+                </div>
+            </div>
+            
+            <!-- Message -->
+            <div class="message-box">
+                <h3>Message</h3>
+                <div class="message-content">{{ message|linebreaks }}</div>
+            </div>
+            
+            <!-- Reply Button -->
+            <div class="action-section">
+                <a href="mailto:{{ email }}" class="reply-button">✉️ Répondre à {{ name }}</a>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="email-footer">
+            <p>Portfolio - Développement Web Full Stack</p>
+            <p class="copyright">© 2024 MMR Portfolio. Tous droits réservés.</p>
+        </div>
+    </div>
+</body>
+</html>
